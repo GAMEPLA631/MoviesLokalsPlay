@@ -5,151 +5,175 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MoviesLokalsPlay — Luxusný video prehrávač</title>
 
-  <!-- Favicon: ak máš vlastný súbor, ponechaj href="favicon.png"; inak zostane emoji fallback -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png" />
-  <!-- Emoji fallback (🎬) – ostane aj bez súboru favicon.png -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
   <link rel="apple-touch-icon" href="favicon.png" />
 
   <style>
     :root{
-      --bg: #0b0f1a; --bg2: #0f172a; --stroke: rgba(255,255,255,0.16);
-      --text: #e6e8ef; --muted: #a9b0c6;
-      --accent1: #8a5cff; --accent2: #2fd4ff; --accent3: #ffb86b;
-      --success: #30e69a; --danger: #ff5c7a;
-      --shadow: 0 20px 40px rgba(0,0,0,0.35);
-      --round: 16px; --blur: 18px;
+      --bg:#0b0f1a;--bg2:#0f172a;--stroke:rgba(255,255,255,0.16);
+      --text:#e6e8ef;--muted:#a9b0c6;--accent1:#8a5cff;--accent2:#2fd4ff;--accent3:#ffb86b;
+      --round:16px;--blur:18px;
     }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    *{box-sizing:border-box}
     body{
-      margin:0; font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color: var(--text);
+      margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);
       background:
         radial-gradient(1200px 600px at 10% 10%, rgba(138,92,255,0.15), transparent 60%),
         radial-gradient(800px 500px at 90% 10%, rgba(47,212,255,0.12), transparent 60%),
         radial-gradient(900px 700px at 50% 80%, rgba(255,184,107,0.10), transparent 70%),
         linear-gradient(180deg, var(--bg), var(--bg2));
-      min-height: 100%;
+      min-height:100vh;
     }
     header{
-      position: sticky; top:0; z-index: 50;
-      backdrop-filter: saturate(140%) blur(14px);
-      background: linear-gradient(180deg, rgba(14,18,30,0.75), rgba(14,18,30,0.35));
-      border-bottom: 1px solid var(--stroke);
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:saturate(140%) blur(14px);
+      background:linear-gradient(180deg,rgba(14,18,30,0.75),rgba(14,18,30,0.35));
+      border-bottom:1px solid var(--stroke);
     }
     .nav{
-      max-width: 1200px; margin: 0 auto; padding: 16px 20px;
-      display: flex; align-items: center; gap: 12px; justify-content: space-between;
+      max-width:1200px;margin:0 auto;padding:16px 20px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
     }
-    .brand{ display:flex; align-items:center; gap:12px; font-weight: 700; letter-spacing: 0.4px; }
-    .brand .logo{
-      width: 40px; height: 40px; border-radius: 12px;
-      background: conic-gradient(from 180deg, var(--accent1), var(--accent2), var(--accent3), var(--accent1));
-      box-shadow: 0 0 24px rgba(138,92,255,0.35), 0 0 40px rgba(47,212,255,0.2);
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700}
+    .logo{
+      width:40px;height:40px;border-radius:12px;
+      background:conic-gradient(from 180deg,var(--accent1),var(--accent2),var(--accent3),var(--accent1));
+      box-shadow:0 0 24px rgba(138,92,255,0.35),0 0 40px rgba(47,212,255,0.2);
     }
-    .nav-actions{ display:flex; align-items:center; gap:10px; flex-wrap: wrap; }
+    .nav-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     .btn{
-      border: 1px solid var(--stroke);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-      color: var(--text);
-      padding: 10px 14px; border-radius: 12px; cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      border:1px solid var(--stroke);
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer;
+      transition:transform .15s, box-shadow .15s, border-color .15s;
     }
-    .btn:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25), 0 0 24px rgba(47,212,255,0.15);
-      border-color: rgba(255,255,255,0.25);
-    }
-    .pill{ padding: 10px 16px; border-radius: 999px; }
+    .btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,0,0,0.25);}
+    .pill{border-radius:999px}
 
-    main{ max-width: 1200px; margin: 24px auto; padding: 0 20px; }
-    .grid{ display:grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; }
-    @media (max-width: 980px){ .grid{ grid-template-columns: 1fr; } }
+    main{max-width:1200px;margin:24px auto;padding:0 20px}
+    .grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:24px}
+    @media(max-width:980px){.grid{grid-template-columns:1fr}}
     .card{
-      border: 1px solid var(--stroke); border-radius: var(--round);
-      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04));
-      backdrop-filter: blur(var(--blur)) saturate(140%);
-      box-shadow: var(--shadow);
+      border:1px solid var(--stroke);border-radius:var(--round);
+      background:linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04));
+      backdrop-filter:blur(var(--blur)) saturate(140%);
+      box-shadow:0 20px 40px rgba(0,0,0,0.35);
     }
-    .card-header{ padding: 16px 16px 0; display:flex; align-items:center; justify-content:space-between; }
-    .card-body{ padding: 16px; }
+    .card-header{padding:16px 16px 0;display:flex;align-items:center;justify-content:space-between}
+    .card-body{padding:16px}
     .badge{
-      display:inline-flex; gap:6px; align-items:center; font-size:12px; color: var(--muted);
-      border:1px solid var(--stroke); padding:4px 8px; border-radius:999px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      display:inline-flex;gap:6px;align-items:center;font-size:12px;color:var(--muted);
+      border:1px solid var(--stroke);padding:4px 8px;border-radius:999px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
     }
 
     /* Player */
-    .player-wrap{ border-radius: 16px; overflow: hidden; border:1px solid var(--stroke); position: relative; }
+    .player-wrap{position:relative;border:1px solid var(--stroke);border-radius:16px;overflow:hidden}
     .player{
-      width: 100%; aspect-ratio: 16/9; background: #000; display:block;
-      filter: contrast(1.06) saturate(1.10);
-      transition: filter .2s ease, box-shadow .2s ease;
+      width:100%;aspect-ratio:16/9;background:#000;display:block;
+      filter:
+        var(--filterUltra, none)
+        var(--filterBase, contrast(1.06) saturate(1.10))
+        var(--filterRealism, none);
+      transition:filter .2s ease, box-shadow .2s ease;
     }
     .vignette::after{
-      content:""; position:absolute; inset:0; pointer-events:none;
-      background: radial-gradient(120% 80% at 50% 50%, transparent 60%, rgba(0,0,0,0.25) 100%);
-      transition: opacity .2s ease;
+      content:"";position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(120% 80% at 50% 50%, transparent 60%, rgba(0,0,0,0.25) 100%);
     }
-    .controls{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:12px; }
-    .controls .group{ display:flex; gap:10px; align-items:center; }
-    .controls label{ color: var(--muted); font-size: 14px; }
-    .range{ width: 160px; }
-    .progress{
-      position:relative; height:8px; background: rgba(255,255,255,0.12);
-      border-radius: 999px; margin-top: 12px; cursor: pointer;
-    }
-    .progress .bar{
-      position:absolute; left:0; top:0; bottom:0; width:0%;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
-      border-radius: 999px;
-    }
-    .time{ display:flex; justify-content:space-between; font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+    .controls .group{display:flex;gap:10px;align-items:center}
+    .controls label{color:var(--muted);font-size:14px}
+    .range{width:160px}
+    .progress{position:relative;height:8px;background:rgba(255,255,255,0.12);border-radius:999px;margin-top:12px;cursor:pointer}
+    .progress .bar{position:absolute;left:0;top:0;bottom:0;width:0%;background:linear-gradient(90deg, var(--accent1), var(--accent2));border-radius:999px}
+    .time{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px}
 
-    /* Playlist */
-    .playlist{ display:grid; grid-template-columns: 1fr; gap:10px; }
+    /* Film grain overlay */
+    .film-grain{
+      position:absolute;inset:0;pointer-events:none;opacity:0;mix-blend-mode:overlay;
+      background:
+        radial-gradient(90px 90px at 20% 30%, rgba(255,255,255,0.04), transparent 60%),
+        radial-gradient(120px 120px at 80% 70%, rgba(0,0,0,0.05), transparent 60%),
+        linear-gradient(0deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+      animation:grainShift 8s steps(10) infinite;transition:opacity .3s ease;
+    }
+    @keyframes grainShift{
+      0%{background-position:0 0,0 0,0 0}
+      25%{background-position:12px -8px,-10px 8px,0 4px}
+      50%{background-position:-18px 14px,16px -12px,0 -3px}
+      75%{background-position:8px 10px,-14px -6px,0 2px}
+      100%{background-position:0 0,0 0,0 0}
+    }
+
+    /* Playlist & wallet & shop */
+    .playlist{display:grid;grid-template-columns:1fr;gap:10px}
     .tile{
-      display:flex; gap:12px; padding:10px; border-radius: 12px; cursor:pointer;
+      display:flex;gap:12px;padding:10px;border-radius:12px;cursor:pointer;
       border:1px solid var(--stroke);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      transition:transform .15s, border-color .15s, box-shadow .15s;
     }
-    .tile:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,0.24); box-shadow: 0 10px 26px rgba(0,0,0,0.25); }
-    .thumb{ width: 68px; height: 42px; border-radius:8px; background:#111; overflow:hidden; }
-    .thumb img{ width:100%; height:100%; object-fit:cover; }
-    .tile .meta{ display:flex; flex-direction:column; gap:4px; }
-    .tile .title{ font-weight: 600; }
-    .hint{ color: var(--muted); font-size: 12px; }
+    .tile:hover{transform:translateY(-1px);border-color:rgba(255,255,255,0.24);box-shadow:0 10px 26px rgba(0,0,0,0.25)}
+    .thumb{width:68px;height:42px;border-radius:8px;background:#111;overflow:hidden}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .meta{display:flex;flex-direction:column;gap:4px}
+    .title{font-weight:600}
+    .hint{color:var(--muted);font-size:12px}
 
-    /* Wallet & shop */
-    .wallet{ display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; }
-    .wallet .stat{
-      padding:12px; border-radius:12px; border:1px solid var(--stroke);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-    }
-    .stat .label{ font-size:12px; color: var(--muted); }
-    .stat .value{ font-size:20px; font-weight:700; display:flex; align-items:center; gap:8px; }
-    .shop{ display:grid; grid-template-columns: 1fr; gap:12px; margin-top:12px; }
+    .wallet{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .stat{padding:12px;border-radius:12px;border:1px solid var(--stroke);
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03))}
+    .label{font-size:12px;color:var(--muted)}
+    .value{font-size:20px;font-weight:700;display:flex;align-items:center;gap:8px}
+
+    .shop{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
     .shop-item{
-      display:flex; justify-content:space-between; align-items:center; gap:12px;
-      padding:12px; border-radius:12px; border:1px solid var(--stroke);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      padding:12px;border-radius:12px;border:1px solid var(--stroke);
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
     }
 
-    footer{
-      max-width: 1200px; margin: 24px auto; padding: 0 20px 20px;
-      display:flex; justify-content:space-between; gap:12px; color: var(--muted); font-size: 13px;
-    }
-    .sr-only{ position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
+    footer{max-width:1200px;margin:24px auto;padding:0 20px 20px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between}
+    .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
   </style>
 </head>
 <body>
+  <!-- Inline SVG filter defs pre “TikTok Ultra grafika” -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <!-- Štíhly sharpen + lokálny kontrast -->
+      <filter id="ultraGraphika">
+        <!-- Jemné doostrenie -->
+        <feConvolveMatrix order="3" kernelMatrix="
+          0 -1  0
+         -1  5 -1
+          0 -1  0" edgeMode="duplicate" result="sharp"/>
+        <!-- Zvýraznenie mikrokontrastu -->
+        <feComponentTransfer in="sharp">
+          <feFuncR type="gamma" exponent="0.95"/>
+          <feFuncG type="gamma" exponent="0.95"/>
+          <feFuncB type="gamma" exponent="0.95"/>
+        </feComponentTransfer>
+        <!-- Jemné tónovanie (bez prehnaných farieb) -->
+        <feColorMatrix type="saturate" values="1.08"/>
+        <feColorMatrix type="matrix" values="
+          1.06 0    0    0    0
+          0    1.06 0    0    0
+          0    0    1.06 0    0
+          0    0    0    1    0"/>
+      </filter>
+    </defs>
+  </svg>
+
   <header>
     <div class="nav">
       <div class="brand">
         <div class="logo"></div>
         <div>MoviesLokalsPlay</div>
-        <span class="badge"><span>Luxusný dizajn</span> • <span>Kráľovský zážitok</span></span>
+        <span class="badge">Luxusný dizajn • Kráľovský zážitok</span>
       </div>
       <div class="nav-actions">
         <button class="btn pill" id="uploadBtn">Nahrať MP4</button>
@@ -169,20 +193,21 @@
         <div class="card-header">
           <div>
             <div style="font-weight:700;">Prehrávač videa</div>
-            <div class="hint">Kvalita (vrátane 4K), titulky, rýchlosť, PiP, fullscreen, kino look</div>
+            <div class="hint">Kvalita (480p–4K), PiP, fullscreen, kino look, realistická + ultra grafika</div>
           </div>
           <div class="badge">Upgrade: <span id="upgradeLevel">0</span></div>
         </div>
         <div class="card-body">
-          <div id="blockNotice" class="tile" style="display:none; border-style:dashed; border-color:#ff5c7a; background:linear-gradient(180deg, rgba(255,92,122,0.12), rgba(255,92,122,0.06));">
+          <div id="blockNotice" class="tile" style="display:none;border-style:dashed;border-color:#ff5c7a;background:linear-gradient(180deg, rgba(255,92,122,0.12), rgba(255,92,122,0.06));">
             <div class="meta">
-              <div class="title">Toto video je zablokované (sexualný obsah)</div>
-              <div class="hint">Bezpečnostný filter zabránil prehrávaniu. Vyberte iné video.</div>
+              <div class="title">Toto video je zablokované</div>
+              <div class="hint">Bezpečnostný filter zablokoval prehrávanie. Vyberte iné video alebo vypnite filter.</div>
             </div>
           </div>
 
-          <div class="player-wrap" id="playerWrap">
+          <div class="player-wrap vignette" id="playerWrap">
             <video id="player" class="player" crossorigin playsinline></video>
+            <div id="filmGrain" class="film-grain"></div>
           </div>
 
           <div class="controls">
@@ -210,12 +235,6 @@
               <select id="quality" class="btn"></select>
             </div>
             <div class="group">
-              <label for="cc">Titulky</label>
-              <select id="cc" class="btn">
-                <option value="off" selected>Vypnuté</option>
-              </select>
-            </div>
-            <div class="group">
               <button class="btn" id="rewindBtn">⟲ −10s</button>
               <button class="btn" id="forwardBtn">⟳ +10s</button>
             </div>
@@ -236,7 +255,7 @@
         <div class="card-header">
           <div>
             <div style="font-weight:700;">Playlist a obchod</div>
-            <div class="hint">Vyberte video, kontrolujte peňaženku a kupujte upgrady</div>
+            <div class="hint">Vyber video, zbieraj odmeny, nakupuj upgrady</div>
           </div>
           <div class="badge">Bezpečný filter: <span id="safeLabel">ON</span></div>
         </div>
@@ -257,7 +276,7 @@
           </div>
 
           <div class="hint" style="margin-top:8px;">
-            Denné auto‑darčeky: +1000 Coins, +1000 Diamantov, +1000 Kľúčov. Uvítací darček +1000/1000/1000 (jednorazovo).
+            Denné auto‑darčeky: +1000 Coins, +1000 Diamantov, +1000 Kľúčov. Uvítací darček +1000/1000/1000 jednorazovo.
           </div>
 
           <div style="margin-top:8px; display:flex; gap:10px; align-items:center;">
@@ -269,7 +288,7 @@
             <div class="shop-item">
               <div>
                 <div style="font-weight:600;">Tech Upgrade (nekonečný)</div>
-                <div class="hint">Kino ostrosť, kontrast, bohaté farby, jemná vinjeta; odomyká vyššie kvality</div>
+                <div class="hint">Odomyká vyššie kvality (kvalita za 200 🪙), kino ostrosť a kontrast</div>
               </div>
               <div style="display:flex; gap:8px; align-items:center;">
                 <button class="btn" id="buyUpgradeCoins">Kúpiť za 200 🪙</button>
@@ -277,6 +296,23 @@
                 <button class="btn" id="useKey">Použiť 1 🗝️</button>
               </div>
             </div>
+
+            <div class="shop-item">
+              <div>
+                <div style="font-weight:600;">Realistická filmová grafika</div>
+                <div class="hint">Jemné zrno a filmový grading (permanentné)</div>
+              </div>
+              <button class="btn" id="buyRealismDiamond">Kúpiť za 800 💎</button>
+            </div>
+
+            <div class="shop-item">
+              <div>
+                <div style="font-weight:600;">TikTok Ultra grafika</div>
+                <div class="hint">Nadupaný look: ostré detaily, mikrokontrast, jemné tónovanie (permanentné)</div>
+              </div>
+              <button class="btn" id="buyUltraGraphikaDiamond">Kúpiť za 800 💎</button>
+            </div>
+
             <div class="shop-item">
               <div>
                 <div style="font-weight:600;">Balík Diamantov</div>
@@ -313,11 +349,13 @@
       dailyDiamonds: 1000,
       dailyKeys: 1000,
       coinsPerMinute: 5,
-      upgradeCostCoins: 200,
+      upgradeCostCoins: 200,          // kvalita odomknutie za 200 Coins (Tech Upgrade)
       upgradeCostDiamonds: 1,
       exchangeCoinsToDiamonds: { coins: 500, diamonds: 3 },
       exchangeCoinsToKey: { coins: 300, keys: 1 },
-      maxQualityUnlockPerLevel: 1
+      maxQualityUnlockPerLevel: 1,
+      realismCostDiamonds: 800,
+      ultraGraphikaCostDiamonds: 800  // TikTok Ultra grafika
     };
 
     const SAFE_KEYWORDS = [
@@ -338,8 +376,7 @@
           "1080p": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
           "4K": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         },
-        captions: [],
-        durationHint: 596
+        captions: []
       },
       {
         id: "sintel",
@@ -352,8 +389,7 @@
           "1080p": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
           "4K": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
         },
-        captions: [],
-        durationHint: 888
+        captions: []
       },
       {
         id: "elephants",
@@ -367,8 +403,7 @@
           "1080p": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
           "4K": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
         },
-        captions: [],
-        durationHint: 654
+        captions: []
       }
     ];
 
@@ -384,8 +419,16 @@
       watchedSecondsThisSession: 0,
       lastMonthlyCredit: null,
       lastDailyClaim: null,
-      globalGiftClaimed: false
+      globalGiftClaimed: false,
+      realisticGrade: false,
+      ultraGraphika: false
     };
+
+    function saveStore(){
+      localStorage.setItem("mlp-store", JSON.stringify(store));
+      renderWallet();
+      document.getElementById("upgradeLevel").textContent = store.upgradeLevel;
+    }
 
     function loadStore(){
       const raw = localStorage.getItem("mlp-store");
@@ -401,7 +444,7 @@
         toast(`Mesačný bonus +${ECONOMY.monthlyCoins} 🪙`, "success");
       }
 
-      // Denný auto-darček (1000/1000/1000)
+      // Denný auto-darček
       const ymd = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
       const dailyReady = store.lastDailyClaim !== ymd;
       document.getElementById("dailyStatus").textContent = dailyReady ? "Pripravené" : "Zobrať zajtra";
@@ -413,7 +456,7 @@
         toast(`Denný darček: +${ECONOMY.dailyCoins} 🪙, +${ECONOMY.dailyDiamonds} 💎, +${ECONOMY.dailyKeys} 🗝️`, "success");
       }
 
-      // Jednorazový uvítací darček (1000/1000/1000)
+      // Uvítací darček (jednorazový)
       if(!store.globalGiftClaimed){
         store.coins += 1000;
         store.diamonds += 1000;
@@ -423,16 +466,9 @@
       }
 
       saveStore();
-      renderWallet();
       document.getElementById("safeLabel").textContent = store.safeMode ? "ON" : "OFF";
       document.getElementById("safeToggle").textContent = `Bezpečný režim: ${store.safeMode ? "Zapnutý" : "Vypnutý"}`;
       document.getElementById("cinemaBtn").textContent = `Kino režim: ${store.cinemaMode ? "Zapnutý" : "Vypnutý"}`;
-      document.getElementById("upgradeLevel").textContent = store.upgradeLevel;
-    }
-
-    function saveStore(){
-      localStorage.setItem("mlp-store", JSON.stringify(store));
-      renderWallet();
       document.getElementById("upgradeLevel").textContent = store.upgradeLevel;
     }
 
@@ -443,225 +479,169 @@
     }
 
     // ====== Utility ======
-    function formatTime(t){
-      const m = Math.floor(t/60);
-      const s = Math.floor(t%60);
-      return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-    }
+    function formatTime(t){ const m=Math.floor(t/60), s=Math.floor(t%60); return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`; }
     function toast(msg, type="info"){
-      const el = document.createElement("div");
-      el.textContent = msg;
-      el.style.position = "fixed";
-      el.style.bottom = "20px";
-      el.style.right = "20px";
-      el.style.zIndex = "9999";
-      el.style.padding = "10px 14px";
-      el.style.borderRadius = "12px";
-      el.style.border = "1px solid var(--stroke)";
-      el.style.color = "white";
-      el.style.background = type==="success"
+      const el=document.createElement("div");
+      el.textContent=msg;
+      el.style.position="fixed";el.style.bottom="20px";el.style.right="20px";el.style.zIndex="9999";
+      el.style.padding="10px 14px";el.style.borderRadius="12px";el.style.border="1px solid var(--stroke)";el.style.color="white";
+      el.style.background= type==="success"
         ? "linear-gradient(180deg, rgba(48,230,154,0.28), rgba(48,230,154,0.16))"
         : type==="danger"
         ? "linear-gradient(180deg, rgba(255,92,122,0.28), rgba(255,92,122,0.16))"
         : "linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06))";
-      el.style.boxShadow = "0 12px 30px rgba(0,0,0,0.35)";
+      el.style.boxShadow="0 12px 30px rgba(0,0,0,0.35)";
       document.body.appendChild(el);
-      setTimeout(()=>{ el.style.opacity="0"; el.style.transition="opacity .3s"; }, 2000);
-      setTimeout(()=>{ el.remove(); }, 2600);
+      setTimeout(()=>{el.style.opacity="0";el.style.transition="opacity .3s"},2000);
+      setTimeout(()=>{el.remove()},2600);
     }
     function isSexualBlocked(video){
-      const text = (video.title + " " + (video.tags||[]).join(" ")).toLowerCase();
-      return SAFE_KEYWORDS.some(k => text.includes(k));
+      const text=(video.title+" "+(video.tags||[]).join(" ")).toLowerCase();
+      return SAFE_KEYWORDS.some(k=>text.includes(k));
     }
 
     // ====== Upload MP4 ======
-    const fileInput = document.getElementById("fileInput");
+    const fileInput=document.getElementById("fileInput");
     document.getElementById("uploadBtn").addEventListener("click", ()=>fileInput.click());
     fileInput.addEventListener("change", ()=>{
-      const file = fileInput.files[0];
-      if(!file) return;
-      if(file.type !== "video/mp4"){ toast("Podporované je len MP4", "danger"); return; }
-      const url = URL.createObjectURL(file);
-      const name = file.name.replace(/\.[^/.]+$/, "");
-      const id = "user-" + Date.now();
-      const userVideo = {
-        id,
-        title: name,
-        tags: ["uploaded","local"],
-        thumb: "https://dummyimage.com/320x200/111/ccc.png&text=MP4",
-        sources: {
-          "480p": url,
-          "720p": url,
-          "1080p": url,
-          "4K": url
-        },
-        captions: [],
-        durationHint: 0
-      };
-      videos.unshift(userVideo);
-      renderPlaylist();
-      selectVideo(id);
+      const file=fileInput.files[0]; if(!file) return;
+      if(file.type!=="video/mp4"){ toast("Podporované je len MP4", "danger"); return; }
+      const url=URL.createObjectURL(file);
+      const id="user-"+Date.now();
+      const name=file.name.replace(/\.[^/.]+$/, "");
+      videos.unshift({
+        id, title:name, tags:["uploaded","local"],
+        thumb:"https://dummyimage.com/320x200/111/ccc.png&text=MP4",
+        sources:{ "480p":url, "720p":url, "1080p":url, "4K":url },
+        captions:[]
+      });
+      renderPlaylist(); selectVideo(id);
       toast("Video nahrané do playlistu", "success");
-      fileInput.value = "";
+      fileInput.value="";
     });
 
     // ====== Playlist ======
     function renderPlaylist(){
-      const wrap = document.getElementById("playlist");
-      wrap.innerHTML = "";
-      videos.forEach(v => {
-        const tile = document.createElement("div");
-        tile.className = "tile";
-        tile.setAttribute("data-id", v.id);
-
-        const thumb = document.createElement("div");
-        thumb.className = "thumb";
-        const img = document.createElement("img");
-        img.src = v.thumb;
-        thumb.appendChild(img);
-
-        const meta = document.createElement("div");
-        meta.className = "meta";
-        const title = document.createElement("div");
-        title.className = "title";
-        title.textContent = v.title;
-        const info = document.createElement("div");
-        info.className = "hint";
-        const tagText = (v.tags||[]).join(" • ");
-        info.textContent = `${tagText}${v.durationHint ? " • ~"+formatTime(v.durationHint) : ""}`;
-
-        meta.appendChild(title);
-        meta.appendChild(info);
-        tile.appendChild(thumb);
-        tile.appendChild(meta);
-
-        tile.addEventListener("click", () => selectVideo(v.id));
+      const wrap=document.getElementById("playlist"); wrap.innerHTML="";
+      videos.forEach(v=>{
+        const tile=document.createElement("div"); tile.className="tile"; tile.setAttribute("data-id", v.id);
+        const thumb=document.createElement("div"); thumb.className="thumb"; const img=document.createElement("img"); img.src=v.thumb; thumb.appendChild(img);
+        const meta=document.createElement("div"); meta.className="meta";
+        const title=document.createElement("div"); title.className="title"; title.textContent=v.title;
+        const info=document.createElement("div"); info.className="hint"; info.textContent=(v.tags||[]).join(" • ");
+        meta.appendChild(title); meta.appendChild(info);
+        tile.appendChild(thumb); tile.appendChild(meta);
+        tile.addEventListener("click", ()=>selectVideo(v.id));
         wrap.appendChild(tile);
       });
     }
 
     // ====== Player & Controls ======
-    const player = document.getElementById("player");
-    const playerWrap = document.getElementById("playerWrap");
-    const progress = document.getElementById("progress");
-    const progressBar = document.getElementById("progressBar");
-    const curTime = document.getElementById("curTime");
-    const durTime = document.getElementById("durTime");
+    const player=document.getElementById("player");
+    const playerWrap=document.getElementById("playerWrap");
+    const progress=document.getElementById("progress");
+    const progressBar=document.getElementById("progressBar");
+    const curTime=document.getElementById("curTime");
+    const durTime=document.getElementById("durTime");
 
     function selectVideo(id){
-      const video = videos.find(v=>v.id===id);
-      store.currentVideoId = id;
+      const video=videos.find(v=>v.id===id); store.currentVideoId=id;
 
-      const blocked = store.safeMode && isSexualBlocked(video);
-      document.getElementById("blockNotice").style.display = blocked ? "block" : "none";
-      playerWrap.style.display = blocked ? "none" : "block";
+      const blocked=store.safeMode && isSexualBlocked(video);
+      document.getElementById("blockNotice").style.display=blocked?"block":"none";
+      playerWrap.style.display=blocked?"none":"block";
+      if(blocked){ return; }
 
-      const qualitySel = document.getElementById("quality");
-      qualitySel.innerHTML = "";
-      const qualities = Object.keys(video.sources);
-
-      // Maximum index odomknutý podľa úrovne upgradu
-      const maxIdxUnlocked = Math.min(qualities.length - 1, store.upgradeLevel * ECONOMY.maxQualityUnlockPerLevel);
-
-      qualities.forEach((q, idx) => {
-        const opt = document.createElement("option");
-        opt.value = q;
-        opt.textContent = q + (idx<=maxIdxUnlocked ? "" : " (zamknuté)");
-        opt.disabled = idx > maxIdxUnlocked;
+      // Build quality options with locks per upgrade level
+      const qualitySel=document.getElementById("quality"); qualitySel.innerHTML="";
+      const qualities=Object.keys(video.sources);
+      const maxIdxUnlocked=Math.min(qualities.length-1, store.upgradeLevel * ECONOMY.maxQualityUnlockPerLevel);
+      qualities.forEach((q, idx)=>{
+        const opt=document.createElement("option");
+        opt.value=q; opt.textContent= q + (idx<=maxIdxUnlocked?"":" (zamknuté)");
+        opt.disabled= idx>maxIdxUnlocked;
         qualitySel.appendChild(opt);
       });
+      const defaultQuality=qualities.find((q,idx)=>idx<=maxIdxUnlocked) || qualities[0];
+      qualitySel.value=defaultQuality;
 
-      // Vyber prvú odomknutú kvalitu
-      let defaultQuality = qualities.find((q, idx)=> idx<=maxIdxUnlocked) || qualities[0];
-      qualitySel.value = defaultQuality;
-
-      const ccSel = document.getElementById("cc");
-      ccSel.innerHTML = "<option value='off' selected>Vypnuté</option>";
-      if(video.captions && video.captions.length){
-        video.captions.forEach((c, i)=>{
-          const opt = document.createElement("option");
-          opt.value = "cc"+i;
-          opt.textContent = c.label || c.srclang || "CC";
-          ccSel.appendChild(opt);
-        });
-      }
-
-      if(!blocked){
-        loadVideoSource(video, qualitySel.value);
-        applyCaptions(video, ccSel.value);
-        player.currentTime = 0;
-        player.pause();
-        updateTimes();
-        applyQualityEnhancement();
-      }
+      loadVideoSource(video, defaultQuality);
+      player.currentTime=0; player.pause();
+      updateTimes();
+      applyQualityEnhancement();
+      applyRealisticGrade();
+      applyUltraGraphika();
       saveStore();
     }
 
     function loadVideoSource(video, quality){
-      player.innerHTML = ""; // remove previous sources/tracks
-      const src = document.createElement("source");
-      src.src = video.sources[quality];
-      src.type = "video/mp4";
+      player.innerHTML="";
+      const src=document.createElement("source");
+      src.src=video.sources[quality]; src.type="video/mp4";
       player.appendChild(src);
       player.load();
     }
 
-    function applyCaptions(video, selected){
-      [...player.querySelectorAll("track")].forEach(t=>t.remove());
-      if(selected === "off") return;
-      const idx = parseInt(selected.replace("cc",""), 10);
-      const c = video.captions[idx];
-      if(!c) return;
-      const track = document.createElement("track");
-      track.kind = c.kind || "subtitles";
-      track.label = c.label || "CC";
-      track.srclang = c.srclang || "en";
-      track.src = c.src;
-      track.default = true;
-      player.appendChild(track);
-    }
-
     function updateTimes(){
-      curTime.textContent = formatTime(player.currentTime||0);
-      const duration = player.duration || 0;
-      durTime.textContent = formatTime(duration);
-      const pct = duration ? (player.currentTime / duration)*100 : 0;
-      progressBar.style.width = `${pct}%`;
+      curTime.textContent=formatTime(player.currentTime||0);
+      const duration=player.duration||0;
+      durTime.textContent=formatTime(duration);
+      const pct=duration ? (player.currentTime/duration)*100 : 0;
+      progressBar.style.width=`${pct}%`;
     }
 
-    // Kino vylepšenia podľa úrovne + prepínač kino režimu
+    // Kino vylepšenia (Tech Upgrade)
     function applyQualityEnhancement(){
-      const level = store.upgradeLevel;
-      const baseContrast = 1.06 + Math.min(0.40, level*0.03);
-      const baseSaturate = 1.10 + Math.min(0.60, level*0.04);
-      const warmth = Math.min(0.15, level*0.01);
-      const brightness = 1.00 + Math.min(0.10, level*0.01);
-      const hue = store.cinemaMode ? 0 : -2;
-      player.style.filter = `contrast(${baseContrast}) saturate(${baseSaturate}) brightness(${brightness}) hue-rotate(${hue}deg) sepia(${warmth})`;
-      player.style.boxShadow = `0 0 ${12 + level*2}px rgba(47,212,255,0.25)`;
+      const level=store.upgradeLevel;
+      const baseContrast=1.06 + Math.min(0.40, level*0.03);
+      const baseSaturate=1.10 + Math.min(0.60, level*0.04);
+      const brightness=1.00 + Math.min(0.10, level*0.01);
+      const warmth=Math.min(0.15, level*0.01);
+      const hue=store.cinemaMode ? 0 : -2;
+      player.style.setProperty("--filterBase", `contrast(${baseContrast}) saturate(${baseSaturate}) brightness(${brightness}) hue-rotate(${hue}deg) sepia(${warmth})`);
       playerWrap.classList.toggle("vignette", store.cinemaMode);
     }
 
-    // Progress click seek
+    // Realistický “film grade”
+    function applyRealisticGrade(){
+      const grain=document.getElementById("filmGrain");
+      if(store.realisticGrade){
+        player.style.setProperty("--filterRealism","contrast(1.08) saturate(1.06) brightness(1.02) sepia(0.06) hue-rotate(-1deg)");
+        grain.style.opacity=0.20;
+      } else {
+        player.style.setProperty("--filterRealism","none");
+        grain.style.opacity=0;
+      }
+    }
+
+    // TikTok Ultra grafika (ostrosť + mikrokontrast + jemné tónovanie)
+    function applyUltraGraphika(){
+      if(store.ultraGraphika){
+        player.style.setProperty("--filterUltra", "url(#ultraGraphika) contrast(1.12) saturate(1.08) brightness(1.03)");
+      } else {
+        player.style.setProperty("--filterUltra", "none");
+      }
+    }
+
+    // Progress seek
     progress.addEventListener("click", (e)=>{
-      const rect = progress.getBoundingClientRect();
-      const ratio = (e.clientX - rect.left) / rect.width;
-      const duration = player.duration || 0;
-      player.currentTime = duration * ratio;
+      const rect=progress.getBoundingClientRect();
+      const ratio=(e.clientX - rect.left)/rect.width;
+      const duration=player.duration||0;
+      player.currentTime=duration*ratio;
       updateTimes();
     });
 
     // Time updates & coins accrual
-    let lastTick = performance.now();
+    let lastTick=performance.now();
     function onTick(){
-      const now = performance.now();
-      const dt = (now - lastTick) / 1000;
-      lastTick = now;
+      const now=performance.now();
+      const dt=(now-lastTick)/1000; lastTick=now;
       if(!player.paused && !player.seeking){
         store.watchedSecondsThisSession += dt;
         if(store.watchedSecondsThisSession >= 60){
-          const mins = Math.floor(store.watchedSecondsThisSession / 60);
-          const add = mins * ECONOMY.coinsPerMinute;
+          const mins=Math.floor(store.watchedSecondsThisSession/60);
+          const add=mins*ECONOMY.coinsPerMinute;
           store.coins += add;
           store.watchedSecondsThisSession -= mins*60;
           saveStore();
@@ -673,101 +653,72 @@
     }
     requestAnimationFrame(onTick);
 
-    // ====== Controls wiring ======
+    // Controls
     document.getElementById("playBtn").addEventListener("click", ()=>player.play());
     document.getElementById("pauseBtn").addEventListener("click", ()=>player.pause());
     document.getElementById("muteBtn").addEventListener("click", ()=>{
-      player.muted = !player.muted;
-      document.getElementById("muteBtn").textContent = player.muted ? "Unmute" : "Mute";
+      player.muted=!player.muted;
+      document.getElementById("muteBtn").textContent= player.muted ? "Unmute" : "Mute";
     });
-    document.getElementById("vol").addEventListener("input", (e)=>{ player.volume = Number(e.target.value); });
-    document.getElementById("speed").addEventListener("change", (e)=>{ player.playbackRate = Number(e.target.value); });
-    document.getElementById("rewindBtn").addEventListener("click", ()=>{ player.currentTime = Math.max(0, player.currentTime - 10); });
+    document.getElementById("vol").addEventListener("input", (e)=>{ player.volume=Number(e.target.value); });
+    document.getElementById("speed").addEventListener("change", (e)=>{ player.playbackRate=Number(e.target.value); });
+    document.getElementById("rewindBtn").addEventListener("click", ()=>{ player.currentTime=Math.max(0, player.currentTime-10); });
     document.getElementById("forwardBtn").addEventListener("click", ()=>{
-      const d = player.duration || 0;
-      player.currentTime = Math.min(d, player.currentTime + 10);
+      const d=player.duration||0; player.currentTime=Math.min(d, player.currentTime+10);
     });
-
     document.getElementById("quality").addEventListener("change", (e)=>{
-      const video = videos.find(v=>v.id===store.currentVideoId);
-      if(!video) return;
-      const blocked = store.safeMode && isSexualBlocked(video);
-      if(blocked) return;
-      const wasPlaying = !player.paused;
+      const video=videos.find(v=>v.id===store.currentVideoId); if(!video) return;
+      const wasPlaying=!player.paused;
       loadVideoSource(video, e.target.value);
-      applyQualityEnhancement();
+      applyQualityEnhancement(); applyRealisticGrade(); applyUltraGraphika();
       if(wasPlaying) player.play();
     });
 
-    document.getElementById("cc").addEventListener("change", (e)=>{
-      const video = videos.find(v=>v.id===store.currentVideoId);
-      if(!video) return;
-      applyCaptions(video, e.target.value);
-    });
-
+    // PiP & Fullscreen & toggles
     document.getElementById("pipBtn").addEventListener("click", async ()=>{
       try{
-        if(document.pictureInPictureElement){
-          await document.exitPictureInPicture();
-        } else {
-          await player.requestPictureInPicture();
-        }
+        if(document.pictureInPictureElement){ await document.exitPictureInPicture(); }
+        else { await player.requestPictureInPicture(); }
       }catch(e){ toast("PiP nie je dostupné", "danger"); }
     });
-
     document.getElementById("fsBtn").addEventListener("click", async ()=>{
       try{
-        if(document.fullscreenElement){
-          await document.exitFullscreen();
-        } else {
-          await player.requestFullscreen();
-        }
+        if(document.fullscreenElement){ await document.exitFullscreen(); }
+        else { await player.requestFullscreen(); }
       }catch(e){ toast("Fullscreen nie je dostupný", "danger"); }
     });
-
     document.getElementById("safeToggle").addEventListener("click", ()=>{
-      store.safeMode = !store.safeMode;
-      document.getElementById("safeLabel").textContent = store.safeMode ? "ON" : "OFF";
-      document.getElementById("safeToggle").textContent = `Bezpečný režim: ${store.safeMode ? "Zapnutý" : "Vypnutý"}`;
+      store.safeMode=!store.safeMode;
+      document.getElementById("safeLabel").textContent=store.safeMode?"ON":"OFF";
+      document.getElementById("safeToggle").textContent=`Bezpečný režim: ${store.safeMode?"Zapnutý":"Vypnutý"}`;
       saveStore();
       if(store.currentVideoId) selectVideo(store.currentVideoId);
     });
-
     document.getElementById("cinemaBtn").addEventListener("click", ()=>{
-      store.cinemaMode = !store.cinemaMode;
-      document.getElementById("cinemaBtn").textContent = `Kino režim: ${store.cinemaMode ? "Zapnutý" : "Vypnutý"}`;
-      applyQualityEnhancement();
-      saveStore();
+      store.cinemaMode=!store.cinemaMode;
+      document.getElementById("cinemaBtn").textContent=`Kino režim: ${store.cinemaMode?"Zapnutý":"Vypnutý"}`;
+      applyQualityEnhancement(); applyRealisticGrade(); applyUltraGraphika(); saveStore();
     });
 
-    // ====== Shop actions ======
+    // Shop actions
     document.getElementById("buyUpgradeCoins").addEventListener("click", ()=>{
       if(store.coins >= ECONOMY.upgradeCostCoins){
-        store.coins -= ECONOMY.upgradeCostCoins;
-        store.upgradeLevel++;
-        saveStore();
-        applyQualityEnhancement();
-        toast("Tech Upgrade zakúpený 🪙", "success");
+        store.coins -= ECONOMY.upgradeCostCoins; store.upgradeLevel++; saveStore();
+        toast("Tech Upgrade zakúpený 🪙 (kvalita +)", "success");
         if(store.currentVideoId) selectVideo(store.currentVideoId);
       } else { toast("Nedostatok Coins", "danger"); }
     });
     document.getElementById("buyUpgradeDiamond").addEventListener("click", ()=>{
       if(store.diamonds >= ECONOMY.upgradeCostDiamonds){
-        store.diamonds -= ECONOMY.upgradeCostDiamonds;
-        store.upgradeLevel++;
-        saveStore();
-        applyQualityEnhancement();
-        toast("Tech Upgrade zakúpený 💎", "success");
+        store.diamonds -= ECONOMY.upgradeCostDiamonds; store.upgradeLevel++; saveStore();
+        toast("Tech Upgrade zakúpený 💎 (kvalita +)", "success");
         if(store.currentVideoId) selectVideo(store.currentVideoId);
       } else { toast("Nedostatok Diamantov", "danger"); }
     });
     document.getElementById("useKey").addEventListener("click", ()=>{
       if(store.keys >= 1){
-        store.keys -= 1;
-        store.upgradeLevel++;
-        saveStore();
-        applyQualityEnhancement();
-        toast("Tech Upgrade odomknutý 🗝️", "success");
+        store.keys -= 1; store.upgradeLevel++; saveStore();
+        toast("Tech Upgrade odomknutý 🗝️ (kvalita +)", "success");
         if(store.currentVideoId) selectVideo(store.currentVideoId);
       } else { toast("Chýba kľúč", "danger"); }
     });
@@ -775,35 +726,43 @@
     document.getElementById("buyDiamonds").addEventListener("click", ()=>{
       if(store.coins >= ECONOMY.exchangeCoinsToDiamonds.coins){
         store.coins -= ECONOMY.exchangeCoinsToDiamonds.coins;
-        store.diamonds += ECONOMY.exchangeCoinsToDiamonds.diamonds;
-        saveStore();
+        store.diamonds += ECONOMY.exchangeCoinsToDiamonds.diamonds; saveStore();
         toast("Vymenené za Diamanty", "success");
       } else { toast("Nedostatok Coins", "danger"); }
     });
-
     document.getElementById("buyKey").addEventListener("click", ()=>{
       if(store.coins >= ECONOMY.exchangeCoinsToKey.coins){
         store.coins -= ECONOMY.exchangeCoinsToKey.coins;
-        store.keys += ECONOMY.exchangeCoinsToKey.keys;
-        saveStore();
+        store.keys += ECONOMY.exchangeCoinsToKey.keys; saveStore();
         toast("Vymenené za Kľúč", "success");
       } else { toast("Nedostatok Coins", "danger"); }
     });
 
-    // Denný darček manuálne (ak chceš kliknúť)
+    document.getElementById("buyRealismDiamond").addEventListener("click", ()=>{
+      if(store.realisticGrade){ toast("Realistická grafika už je aktivovaná", "danger"); return; }
+      if(store.diamonds >= ECONOMY.realismCostDiamonds){
+        store.diamonds -= ECONOMY.realismCostDiamonds; store.realisticGrade = true; saveStore();
+        applyRealisticGrade();
+        toast("Realistická filmová grafika aktivovaná 💎", "success");
+      } else { toast("Nedostatok Diamantov (800)", "danger"); }
+    });
+
+    document.getElementById("buyUltraGraphikaDiamond").addEventListener("click", ()=>{
+      if(store.ultraGraphika){ toast("TikTok Ultra grafika už je aktivovaná", "danger"); return; }
+      if(store.diamonds >= ECONOMY.ultraGraphikaCostDiamonds){
+        store.diamonds -= ECONOMY.ultraGraphikaCostDiamonds; store.ultraGraphika = true; saveStore();
+        applyUltraGraphika();
+        toast("TikTok Ultra grafika aktivovaná 💎", "success");
+      } else { toast("Nedostatok Diamantov (800)", "danger"); }
+    });
+
+    // Denný darček manuálne
     document.getElementById("claimDaily").addEventListener("click", ()=>{
-      const now = new Date();
-      const ymd = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
-      if(store.lastDailyClaim === ymd){
-        toast("Denný darček už bol pripísaný", "danger");
-        return;
-      }
-      store.coins += ECONOMY.dailyCoins;
-      store.diamonds += ECONOMY.dailyDiamonds;
-      store.keys += ECONOMY.dailyKeys;
-      store.lastDailyClaim = ymd;
-      document.getElementById("dailyStatus").textContent = "Zobrať zajtra";
-      saveStore();
+      const now=new Date();
+      const ymd=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
+      if(store.lastDailyClaim===ymd){ toast("Denný darček už bol pripísaný", "danger"); return; }
+      store.coins += ECONOMY.dailyCoins; store.diamonds += ECONOMY.dailyDiamonds; store.keys += ECONOMY.dailyKeys;
+      store.lastDailyClaim = ymd; document.getElementById("dailyStatus").textContent="Zobrať zajtra"; saveStore();
       toast(`Denný darček: +${ECONOMY.dailyCoins} 🪙, +${ECONOMY.dailyDiamonds} 💎, +${ECONOMY.dailyKeys} 🗝️`, "success");
     });
 
@@ -818,3 +777,5 @@
   </script>
 </body>
 </html>
+
+
